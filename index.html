@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EMI Calculator</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">◷</span>
+    <span>EMI<em>calculator</em></span>
+  </div>
+  <select id="currency" class="cur" aria-label="Currency">
+    <option value="₹">₹ INR</option>
+    <option value="$">$ USD</option>
+    <option value="€">€ EUR</option>
+    <option value="£">£ GBP</option>
+  </select>
+</header>
+
+<main>
+
+  <!-- ══════════════ INPUTS ══════════════ -->
+  <section class="card inputs">
+    <h2>Loan details</h2>
+
+    <div class="field">
+      <div class="field-head">
+        <label for="amount">Loan amount</label>
+        <div class="value-box">
+          <span class="sym">₹</span>
+          <input type="number" id="amount" value="2500000" min="1000" step="1000">
+        </div>
+      </div>
+      <input type="range" id="amount-range" min="50000" max="20000000" step="50000" value="2500000">
+      <div class="scale"><span>50K</span><span>2 Cr</span></div>
+    </div>
+
+    <div class="field">
+      <div class="field-head">
+        <label for="rate">Interest rate <span class="muted">(% per year)</span></label>
+        <div class="value-box">
+          <input type="number" id="rate" value="8.5" min="0" max="36" step="0.05">
+          <span class="sym">%</span>
+        </div>
+      </div>
+      <input type="range" id="rate-range" min="0" max="24" step="0.05" value="8.5">
+      <div class="scale"><span>0%</span><span>24%</span></div>
+    </div>
+
+    <div class="field">
+      <div class="field-head">
+        <label for="tenure">Tenure</label>
+        <div class="value-box">
+          <input type="number" id="tenure" value="20" min="1" step="1">
+          <div class="unit-toggle">
+            <button class="unit active" data-unit="years">Yr</button>
+            <button class="unit" data-unit="months">Mo</button>
+          </div>
+        </div>
+      </div>
+      <input type="range" id="tenure-range" min="1" max="30" step="1" value="20">
+      <div class="scale"><span id="scale-min">1</span><span id="scale-max">30</span></div>
+    </div>
+
+    <p class="error hidden" id="error"></p>
+  </section>
+
+  <!-- ══════════════ RESULTS ══════════════ -->
+  <section class="card result">
+    <span class="muted">Monthly EMI</span>
+    <h1 id="emi">—</h1>
+    <div class="split">
+      <div>
+        <span class="muted">Principal</span>
+        <b id="principal">—</b>
+      </div>
+      <div>
+        <span class="muted">Total interest</span>
+        <b id="interest" class="warn">—</b>
+      </div>
+      <div>
+        <span class="muted">Total payable</span>
+        <b id="total">—</b>
+      </div>
+    </div>
+    <div class="chart-row">
+      <canvas id="donut" width="180" height="180"></canvas>
+      <ul class="legend">
+        <li><i class="dot p"></i>Principal <span id="pct-p">—</span></li>
+        <li><i class="dot i"></i>Interest <span id="pct-i">—</span></li>
+        <li class="muted small" id="payoff">—</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ══════════════ BALANCE CHART ══════════════ -->
+  <section class="card wide">
+    <h2>Outstanding balance</h2>
+    <p class="muted">How the loan shrinks year by year.</p>
+    <canvas id="balance-chart" width="900" height="240"></canvas>
+  </section>
+
+  <!-- ══════════════ SCHEDULE ══════════════ -->
+  <section class="card wide">
+    <div class="card-head">
+      <div>
+        <h2>Amortization schedule</h2>
+        <p class="muted">Every payment split into interest and principal.</p>
+      </div>
+      <div class="tabs">
+        <button class="tab active" data-view="yearly">Yearly</button>
+        <button class="tab" data-view="monthly">Monthly</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table id="schedule">
+        <thead>
+          <tr>
+            <th id="col-period">Year</th>
+            <th>Principal paid</th>
+            <th>Interest paid</th>
+            <th>Total paid</th>
+            <th>Balance</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">Reducing-balance EMI · figures are indicative and exclude fees, taxes and insurance.</footer>
+
+<script src="js/emi.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
